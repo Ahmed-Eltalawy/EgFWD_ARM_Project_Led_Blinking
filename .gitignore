@@ -1,3 +1,15 @@
+# ignore Vscode Folder
+.vscode/
+
+# ignore Listings Folder
+Listings/
+
+# ignore Doc Folder
+Doc/
+
+# ignore Objects Folder
+Objects/
+
 # Prerequisites
 *.d
 
@@ -50,3 +62,6 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+EgFWD_ARM_Project_Led_Blinking.uvguix.Ahmed Eltalawy
+EgFWD_ARM_Project_Led_Blinking.uvoptx
+EgFWD_ARM_Project_Led_Blinking.uvprojx
