@@ -65,3 +65,5 @@ dkms.conf
 EgFWD_ARM_Project_Led_Blinking.uvguix.Ahmed Eltalawy
 EgFWD_ARM_Project_Led_Blinking.uvoptx
 EgFWD_ARM_Project_Led_Blinking.uvprojx
+EventRecorderStub.scvd
+MemMap.ini

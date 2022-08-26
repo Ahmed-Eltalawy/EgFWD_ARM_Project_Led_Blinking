@@ -189,12 +189,12 @@ void Dio_WriteChannel(Dio_ChannelType ChannelId, Dio_LevelType Level)
         if (Level == DIO_LEVEL_HIGH)
         {
             /* Write Logic High */
-            SET_BIT(GET_REG(GPIO_A_APB_PERI_BASE_ADDRESS, GPIODATA_OFFSET), Dio_Configuration.Channels[ChannelId].Channel_Number);
+            SET_BIT(GET_REG(GPIO_A_AHB_PERI_BASE_ADDRESS, GPIODATA_OFFSET), Dio_Configuration.Channels[ChannelId].Channel_Number);
         }
         else
         {
             /* Write Logic Low */
-            CLEAR_BIT(GET_REG(GPIO_A_APB_PERI_BASE_ADDRESS, GPIODATA_OFFSET), Dio_Configuration.Channels[ChannelId].Channel_Number);
+            CLEAR_BIT(GET_REG(GPIO_A_AHB_PERI_BASE_ADDRESS, GPIODATA_OFFSET), Dio_Configuration.Channels[ChannelId].Channel_Number);
         }
 
         break;
@@ -293,7 +293,7 @@ Dio_PortLevelType Dio_ReadPort(Dio_PortType PortId)
     switch (Dio_Configuration.Channels[PortId].Port_Number)
     {
     case PORTNUMBER_A:
-        outputPort = (Dio_PortLevelType)GET_REG(GPIO_A_APB_PERI_BASE_ADDRESS, GPIODATA_OFFSET);
+        outputPort = (Dio_PortLevelType)GET_REG(GPIO_A_AHB_PERI_BASE_ADDRESS, GPIODATA_OFFSET);
         break;
 
     case PORTNUMBER_B:
@@ -343,7 +343,7 @@ void Dio_WritePort(Dio_PortType PortId, Dio_PortLevelType Level)
     switch (Dio_Configuration.Channels[PortId].Port_Number)
     {
     case PORTNUMBER_A:
-        GET_REG(GPIO_A_APB_PERI_BASE_ADDRESS, GPIODATA_OFFSET) = Level;
+        GET_REG(GPIO_A_AHB_PERI_BASE_ADDRESS, GPIODATA_OFFSET) = Level;
         break;
 
     case PORTNUMBER_B:

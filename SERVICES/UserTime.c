@@ -1,19 +1,17 @@
 /**********************************************************************************************************************
  *  FILE DESCRIPTION
  *  -----------------------------------------------------------------------------------------------------------------*/
-/**        \file  App.c
+/**        \file  UserTime.c
  *        \brief
  *
- *      \details
- *
+ *      \details Source File for UserTime Service .
  *
  *********************************************************************************************************************/
 
 /**********************************************************************************************************************
  *  INCLUDES
  *********************************************************************************************************************/
-#include "Std_Types.h"
-#include "App.h"
+#include "UserTime.h"
 /**********************************************************************************************************************
  *  LOCAL MACROS CONSTANT\FUNCTION
  *********************************************************************************************************************/
@@ -21,6 +19,11 @@
 /**********************************************************************************************************************
  *  LOCAL DATA
  *********************************************************************************************************************/
+/* Global variable to save Time On */
+static  volatile uint32 gTime_on = 3; // 3 Second
+
+/* Global variable to save Time Off */
+static  volatile uint32 gTime_off = 1; // 1 Second
 
 /**********************************************************************************************************************
  *  GLOBAL DATA
@@ -38,37 +41,58 @@
  *  GLOBAL FUNCTIONS
  *********************************************************************************************************************/
 
+
 /******************************************************************************
- * \Syntax             : int main (void)
- * \Description        : The Application Entry Point
- * \Sync\Async         : Synchronous
- * \Reentrancy         : Non Reentrant
- * \Parameters (in)    : None
- * \Parameters (inout) : None
- * \Parameters (out)   : None
- * \Return value:      : Std_ReturnType  E_OK
- *                                    E_NOT_OK
+ * \Syntax             : Time_GetOn
+ * \Description        : Function to return User Input Time on.
+ * \Sync\Async         : Synchronous.
+ * \Reentrancy         : NonReentrant.
+ * \Parameters (in)    : None.
+ * \Parameters (inout) : None.
+ * \Parameters (out)   : None.
+ * \Return value:      : uint32 - User Time On.
  *******************************************************************************/
-int main(void)
+uint32 Time_GetOn(void)
 {
-	/* Intialize all modules according to user configurations */
-	System_Init();
-
-	/* Get Blinking Time Off from user */
-	uint32 Time_On = Time_GetOn();
-	Time_On = Time_GetTimerTicks(Time_On);
-	/* Get Blinking Time On from user */
-	uint32 Time_OFF = Time_GetOff();
-	Time_OFF = Time_GetTimerTicks(Time_OFF);
-
-	while (1)
-	{
-		Blinking_Start(LED_1, Time_On, Time_OFF);
-	}
-
-	return 0;
+	return gTime_on ;
 }
 
+/******************************************************************************
+ * \Syntax             : Time_GetOff
+ * \Description        : Function to return User Input Time off.
+ * \Sync\Async         : Synchronous.
+ * \Reentrancy         : NonReentrant.
+ * \Parameters (in)    : None.
+ * \Parameters (inout) : None.
+ * \Parameters (out)   : None.
+ * \Return value:      : uint32 - User Time Off.
+ *******************************************************************************/
+uint32 Time_GetOff(void)
+{
+	return gTime_off ;
+}
+
+
+/******************************************************************************
+ * \Syntax             : Time_GetTimerTicks
+ * \Description        : Function to Calculate Timer Ticks.
+ * \Sync\Async         : Synchronous.
+ * \Reentrancy         : NonReentrant.
+ * \Parameters (in)    : TimeinSeconds - User Time in Seconds.
+ * \Parameters (inout) : None.
+ * \Parameters (out)   : None.
+ * \Return value:      : uint32 - Number of Timer Ticks.
+ *******************************************************************************/
+uint32 Time_GetTimerTicks(uint32 TimeinSeconds)
+{
+	float Frequency = F_CPU / 4 ;
+
+	float OneTickTime = (float)1 / Frequency ;
+
+	float TotalTicks  = TimeinSeconds / OneTickTime  ;
+
+	return  (uint32)TotalTicks ;
+}
 /**********************************************************************************************************************
- *  END OF FILE: App.c
+ *  END OF FILE: UserTime.c
  *********************************************************************************************************************/

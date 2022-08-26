@@ -62,7 +62,7 @@
 
 
 
-#define GPIODATA_OFFSET                          (0x000)         //GPIO Data Register
+#define GPIODATA_OFFSET                          (0x3FC)         //GPIO Data Register
 #define GPIODIR_OFFSET                           (0x400)         //GPIO Direction Register
 #define GPIOIS_OFFSET                            (0x404)         //GPIO Interrupt Sense Register
 #define GPIOIBE_OFFSET                           (0x408)         //GPIO Interrupt Both Edges Register

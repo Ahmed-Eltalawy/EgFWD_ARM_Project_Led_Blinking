@@ -1,74 +1,86 @@
 /**********************************************************************************************************************
+
  *  FILE DESCRIPTION
- *  -----------------------------------------------------------------------------------------------------------------*/
-/**        \file  App.c
- *        \brief
+ *  -------------------------------------------------------------------------------------------------------------------
+ *         File:  Led.h
+ *       Module:  -
  *
- *      \details
- *
- *
+ *  Description:  Header file for Led Module.
+ *                     
+ *  
  *********************************************************************************************************************/
+#ifndef LED_H
+#define LED_H
 
 /**********************************************************************************************************************
- *  INCLUDES
+ * INCLUDES
  *********************************************************************************************************************/
 #include "Std_Types.h"
-#include "App.h"
+#include "Dio.h"
 /**********************************************************************************************************************
- *  LOCAL MACROS CONSTANT\FUNCTION
+ *  GLOBAL CONSTANT MACROS
  *********************************************************************************************************************/
 
-/**********************************************************************************************************************
- *  LOCAL DATA
- *********************************************************************************************************************/
 
 /**********************************************************************************************************************
- *  GLOBAL DATA
+ *  GLOBAL FUNCTION MACROS
  *********************************************************************************************************************/
 
-/**********************************************************************************************************************
- *  LOCAL FUNCTION PROTOTYPES
- *********************************************************************************************************************/
 
 /**********************************************************************************************************************
- *  LOCAL FUNCTIONS
+ *  GLOBAL DATA TYPES AND STRUCTURES
  *********************************************************************************************************************/
+typedef  Dio_ChannelType Led_ChannelType ;
 
 /**********************************************************************************************************************
- *  GLOBAL FUNCTIONS
+ *  GLOBAL DATA PROTOTYPES
  *********************************************************************************************************************/
+
+ 
+/**********************************************************************************************************************
+ *  GLOBAL FUNCTION PROTOTYPES
+ *********************************************************************************************************************/
+
 
 /******************************************************************************
- * \Syntax             : int main (void)
- * \Description        : The Application Entry Point
- * \Sync\Async         : Synchronous
- * \Reentrancy         : Non Reentrant
- * \Parameters (in)    : None
- * \Parameters (inout) : None
- * \Parameters (out)   : None
- * \Return value:      : Std_ReturnType  E_OK
- *                                    E_NOT_OK
+ * \Syntax             : void Led_TurnOn(Led_ChannelType LedId)
+ * \Description        : Function to Turn On the specified led.
+ * \Sync\Async         : Synchronous.
+ * \Reentrancy         : NonReentrant.
+ * \Parameters (in)    : LedId  - Id of Led  
+ * \Parameters (inout) : None.
+ * \Parameters (out)   : None.
+ * \Return value:      : None.
  *******************************************************************************/
-int main(void)
-{
-	/* Intialize all modules according to user configurations */
-	System_Init();
+void Led_TurnOn(Led_ChannelType LedId);
 
-	/* Get Blinking Time Off from user */
-	uint32 Time_On = Time_GetOn();
-	Time_On = Time_GetTimerTicks(Time_On);
-	/* Get Blinking Time On from user */
-	uint32 Time_OFF = Time_GetOff();
-	Time_OFF = Time_GetTimerTicks(Time_OFF);
+/******************************************************************************
+ * \Syntax             : void Led_TurnOff(Led_ChannelType LedId)
+ * \Description        : Function to Turn off the specified led.
+ * \Sync\Async         : Synchronous.
+ * \Reentrancy         : NonReentrant.
+ * \Parameters (in)    : LedId  - Id of Led  
+ * \Parameters (inout) : None.
+ * \Parameters (out)   : None.
+ * \Return value:      : None.
+ *******************************************************************************/
+void Led_TurnOff(Led_ChannelType LedId);
 
-	while (1)
-	{
-		Blinking_Start(LED_1, Time_On, Time_OFF);
-	}
+/******************************************************************************
+ * \Syntax             : void Led_Toggle(Led_ChannelType LedId)
+ * \Description        : Function to Toggle the specified led.
+ * \Sync\Async         : Synchronous.
+ * \Reentrancy         : NonReentrant.
+ * \Parameters (in)    : LedId  - Id of Led  
+ * \Parameters (inout) : None.
+ * \Parameters (out)   : None.
+ * \Return value:      : None.
+ *******************************************************************************/
+void Led_Toggle(Led_ChannelType LedId);
 
-	return 0;
-}
+ 
+#endif  /* LED_H */
 
 /**********************************************************************************************************************
- *  END OF FILE: App.c
+ *  END OF FILE: Led.h
  *********************************************************************************************************************/

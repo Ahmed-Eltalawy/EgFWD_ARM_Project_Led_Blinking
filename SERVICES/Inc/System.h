@@ -2,24 +2,28 @@
 
  *  FILE DESCRIPTION
  *  -------------------------------------------------------------------------------------------------------------------
- *         File:  Port_Cfg.h
+ *         File:  System.h
  *       Module:  -
  *
- *  Description:  Port Module's user configurations      
+ *  Description:  Header file for System Service.
+ *                     
  *  
  *********************************************************************************************************************/
-#ifndef PORT_CFG_H
-#define PORT_CFG_H
+#ifndef SYSTEM_H
+#define SYSTEM_H
 
 /**********************************************************************************************************************
  * INCLUDES
  *********************************************************************************************************************/
-#include "Port_Types.h"
+#include "Std_Types.h"
+#include "Port.h"
+#include "IntCtrl.h"
+#include "SysTick.h"
+#include "Blink.h"
 /**********************************************************************************************************************
  *  GLOBAL CONSTANT MACROS
  *********************************************************************************************************************/
-/*  Number of confuigered Pin*/
-#define PORT_CONFIGURED_CHANNLES           (1)
+
 
 /**********************************************************************************************************************
  *  GLOBAL FUNCTION MACROS
@@ -30,18 +34,33 @@
  *  GLOBAL DATA TYPES AND STRUCTURES
  *********************************************************************************************************************/
 
-/* Data Structure required for initializing the Port Driver */
-typedef struct Port_ConfigType
-{
-    Port_Channel_ConfigType  Channel [PORT_CONFIGURED_CHANNLES] ;
-}Port_ConfigType;
-
-
-/* Extern PB structures to be used by Port  */
-extern const Port_ConfigType Port_Configurations;
- 
-#endif  /* PORT_CFG_H */
 
 /**********************************************************************************************************************
- *  END OF FILE: Port_Cfg.h
+ *  GLOBAL DATA PROTOTYPES
+ *********************************************************************************************************************/
+
+ 
+/**********************************************************************************************************************
+ *  GLOBAL FUNCTION PROTOTYPES
+ *********************************************************************************************************************/
+
+
+/******************************************************************************
+ * \Syntax             : void System_Init(void)
+ * \Description        : Function to Init ECU.
+ * \Sync\Async         : Synchronous.
+ * \Reentrancy         : NonReentrant.
+ * \Parameters (in)    : None.
+ * \Parameters (inout) : None.
+ * \Parameters (out)   : None.
+ * \Return value:      : None.
+ *******************************************************************************/
+void System_Init(void);
+
+
+ 
+#endif  /* SYSTEM_H */
+
+/**********************************************************************************************************************
+ *  END OF FILE: System.h
  *********************************************************************************************************************/

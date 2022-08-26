@@ -1,19 +1,17 @@
 /**********************************************************************************************************************
  *  FILE DESCRIPTION
  *  -----------------------------------------------------------------------------------------------------------------*/
-/**        \file  App.c
+/**        \file  Led.c
  *        \brief
  *
- *      \details
- *
+ *      \details Source File for Led Module .
  *
  *********************************************************************************************************************/
 
 /**********************************************************************************************************************
  *  INCLUDES
  *********************************************************************************************************************/
-#include "Std_Types.h"
-#include "App.h"
+#include "Led.h"
 /**********************************************************************************************************************
  *  LOCAL MACROS CONSTANT\FUNCTION
  *********************************************************************************************************************/
@@ -21,6 +19,7 @@
 /**********************************************************************************************************************
  *  LOCAL DATA
  *********************************************************************************************************************/
+
 
 /**********************************************************************************************************************
  *  GLOBAL DATA
@@ -38,37 +37,53 @@
  *  GLOBAL FUNCTIONS
  *********************************************************************************************************************/
 
+
 /******************************************************************************
- * \Syntax             : int main (void)
- * \Description        : The Application Entry Point
- * \Sync\Async         : Synchronous
- * \Reentrancy         : Non Reentrant
- * \Parameters (in)    : None
- * \Parameters (inout) : None
- * \Parameters (out)   : None
- * \Return value:      : Std_ReturnType  E_OK
- *                                    E_NOT_OK
+ * \Syntax             : void Led_TurnOn(Led_ChannelType LedId)
+ * \Description        : Function to Turn On the specified led.
+ * \Sync\Async         : Synchronous.
+ * \Reentrancy         : NonReentrant.
+ * \Parameters (in)    : LedId  - Id of Led  
+ * \Parameters (inout) : None.
+ * \Parameters (out)   : None.
+ * \Return value:      : None.
  *******************************************************************************/
-int main(void)
+void Led_TurnOn(Led_ChannelType LedId)
 {
-	/* Intialize all modules according to user configurations */
-	System_Init();
+	Dio_WriteChannel(LedId, DIO_LEVEL_HIGH);
+}
 
-	/* Get Blinking Time Off from user */
-	uint32 Time_On = Time_GetOn();
-	Time_On = Time_GetTimerTicks(Time_On);
-	/* Get Blinking Time On from user */
-	uint32 Time_OFF = Time_GetOff();
-	Time_OFF = Time_GetTimerTicks(Time_OFF);
 
-	while (1)
-	{
-		Blinking_Start(LED_1, Time_On, Time_OFF);
-	}
+/******************************************************************************
+ * \Syntax             : void Led_TurnOff(Led_ChannelType LedId)
+ * \Description        : Function to Turn off the specified led.
+ * \Sync\Async         : Synchronous.
+ * \Reentrancy         : NonReentrant.
+ * \Parameters (in)    : LedId  - Id of Led  
+ * \Parameters (inout) : None.
+ * \Parameters (out)   : None.
+ * \Return value:      : None.
+ *******************************************************************************/
+void Led_TurnOff(Led_ChannelType LedId)
+{
+	Dio_WriteChannel(LedId, DIO_LEVEL_LOW);
+}
 
-	return 0;
+/******************************************************************************
+ * \Syntax             : void Led_Toggle(Led_ChannelType LedId)
+ * \Description        : Function to Toggle the specified led.
+ * \Sync\Async         : Synchronous.
+ * \Reentrancy         : NonReentrant.
+ * \Parameters (in)    : LedId  - Id of Led  
+ * \Parameters (inout) : None.
+ * \Parameters (out)   : None.
+ * \Return value:      : None.
+ *******************************************************************************/
+void Led_Toggle(Led_ChannelType LedId)
+{
+	Dio_FlipChannel(LedId);
 }
 
 /**********************************************************************************************************************
- *  END OF FILE: App.c
+ *  END OF FILE: Led.c
  *********************************************************************************************************************/

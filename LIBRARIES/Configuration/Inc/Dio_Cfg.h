@@ -21,22 +21,18 @@
  *  GLOBAL CONSTANT MACROS
  *********************************************************************************************************************/
 /* Number of the configured Dio Channels */
-#define DIO_CONFIGURED_CHANNLES                 (3U)
+#define DIO_CONFIGURED_CHANNLES                 (1U)
 
 /* Channel Index in the array of structures */
 #define DioConf_LED1_CHANNEL_ID_INDEX           (uint8)0x00
-#define DioConf_BUTTON1_CHANNEL_ID_INDEX        (uint8)0x01
-#define DioConf_BUTTON2_CHANNEL_ID_INDEX        (uint8)0x01
+
 
 /* DIO Configured Port ID's  */
-#define DIO_CONFIG_LED1_PORT_NUM                (Dio_PortType)PORTNUMBER_C /* PORTC */
-#define DIO_CONFIG_BUTTON1_PORT_NUM             (Dio_PortType)PORTNUMBER_D /* PORTD */
-#define DIO_CONFIG_BUTTON2_PORT_NUM             (Dio_PortType)PORTNUMBER_D /* PORTD */
+#define DIO_CONFIG_LED1_PORT_NUM                (Dio_PortType)PORTNUMBER_A /* PORTA */
+
 
 /* DIO Configured Channel ID's */
-#define DIO_CONFIG_LED1_CHANNEL_NUM             (Dio_ChannelType)PORT_C_5 /* Pin 5 in PORTC */
-#define DIO_CONFIG_BUTTON1_CHANNEL_NUM          (Dio_ChannelType)PORT_D_2 /* Pin 2 in PORTD */
-#define DIO_CONFIG_BUTTON2_CHANNEL_NUM          (Dio_ChannelType)PORT_D_3 /* Pin 3 in PORTD */
+#define DIO_CONFIG_LED1_CHANNEL_NUM             (Dio_ChannelType)PORT_A_0 /* Pin 0 in PORTA */
 /**********************************************************************************************************************
  *  GLOBAL FUNCTION MACROS
  *********************************************************************************************************************/

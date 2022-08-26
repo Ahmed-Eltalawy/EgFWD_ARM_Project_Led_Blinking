@@ -1,19 +1,17 @@
 /**********************************************************************************************************************
  *  FILE DESCRIPTION
  *  -----------------------------------------------------------------------------------------------------------------*/
-/**        \file  App.c
+/**        \file  Blink.c
  *        \brief
  *
- *      \details
- *
+ *      \details Source File for Blink Service .
  *
  *********************************************************************************************************************/
 
 /**********************************************************************************************************************
  *  INCLUDES
  *********************************************************************************************************************/
-#include "Std_Types.h"
-#include "App.h"
+#include "Blink.h"
 /**********************************************************************************************************************
  *  LOCAL MACROS CONSTANT\FUNCTION
  *********************************************************************************************************************/
@@ -21,6 +19,8 @@
 /**********************************************************************************************************************
  *  LOCAL DATA
  *********************************************************************************************************************/
+
+static uint8 Led_Status = LED_STATUS_OFF;
 
 /**********************************************************************************************************************
  *  GLOBAL DATA
@@ -39,36 +39,82 @@
  *********************************************************************************************************************/
 
 /******************************************************************************
- * \Syntax             : int main (void)
- * \Description        : The Application Entry Point
- * \Sync\Async         : Synchronous
- * \Reentrancy         : Non Reentrant
- * \Parameters (in)    : None
- * \Parameters (inout) : None
- * \Parameters (out)   : None
- * \Return value:      : Std_ReturnType  E_OK
- *                                    E_NOT_OK
+ * \Syntax             : Blinking_Start
+ * \Description        : Function to blink the specified led.
+ * \Sync\Async         : Synchronous.
+ * \Reentrancy         : NonReentrant.
+ * \Parameters (in)    : LedId    - The specific led id.
+ *					   : Time_On  - Led On time period
+ *                     : Time_OFF - Led Off time period
+ * \Parameters (inout) : None.
+ * \Parameters (out)   : None.
+ * \Return value:      : None.
  *******************************************************************************/
-int main(void)
+void Blinking_Start(Led_ChannelType LedId, uint32 Time_On, uint32 Time_OFF)
 {
-	/* Intialize all modules according to user configurations */
-	System_Init();
 
-	/* Get Blinking Time Off from user */
-	uint32 Time_On = Time_GetOn();
-	Time_On = Time_GetTimerTicks(Time_On);
-	/* Get Blinking Time On from user */
-	uint32 Time_OFF = Time_GetOff();
-	Time_OFF = Time_GetTimerTicks(Time_OFF);
-
-	while (1)
+	if (Led_Status != LED_STATUS_OFF)
 	{
-		Blinking_Start(LED_1, Time_On, Time_OFF);
+		
+		Led_TurnOn(LedId);
+		SysTick_StartTimer(Time_On);
+		Led_Status = LED_STATUS_ON;
 	}
 
-	return 0;
+	while (Led_Status == LED_STATUS_ON)
+		;
+
+	if (Led_Status != LED_STATUS_ON)
+	{
+		Led_TurnOff(LedId);
+		SysTick_StartTimer(Time_OFF);
+		Led_Status = LED_STATUS_OFF;
+	}
+
+	while (Led_Status == LED_STATUS_OFF)
+		;
+
+	return;
 }
 
+/******************************************************************************
+ * \Syntax             : void Blinking_Stop(void)
+ * \Description        : Function to stop Blinking Led.
+ * \Sync\Async         : Synchronous.
+ * \Reentrancy         : NonReentrant.
+ * \Parameters (in)    : None.
+ * \Parameters (inout) : None.
+ * \Parameters (out)   : None.
+ * \Return value:      : None.
+ *******************************************************************************/
+void Blinking_Stop(void)
+{
+	/* Stop Blinking*/
+	return;
+}
+
+
+/******************************************************************************
+ * \Syntax             : void Blinking_Change_Status(void)
+ * \Description        : Function to change status of Blinking Led.
+ * \Sync\Async         : Synchronous.
+ * \Reentrancy         : NonReentrant.
+ * \Parameters (in)    : None.
+ * \Parameters (inout) : None.
+ * \Parameters (out)   : None.
+ * \Return value:      : None.
+ *******************************************************************************/
+void Blinking_Change_Status(void)
+{
+	if (Led_Status == LED_STATUS_ON)
+	{
+		Led_Status=LED_STATUS_OFF;
+	}
+	else
+	{
+		Led_Status=LED_STATUS_ON;
+	}
+}
 /**********************************************************************************************************************
- *  END OF FILE: App.c
+ *  END OF FILE: Blink.c
  *********************************************************************************************************************/

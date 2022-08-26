@@ -51,7 +51,7 @@
 void Port_Init(const Port_ConfigType *ConfigPtr)
 {
 
-		uint8 counter = 0;
+    uint8 counter = 0;
     /*
     Note that each GPIO module clock must be enabled before the registers can be programmed (see
     page 340). There must be a delay of 3 system clocks after the GPIO module clock is enabled before
@@ -67,21 +67,23 @@ void Port_Init(const Port_ConfigType *ConfigPtr)
         /* No Action Required */
     }
 
-    
-
     for (counter = 0; counter < PORT_CONFIGURED_CHANNLES; counter++)
     {
 
         switch (ConfigPtr->Channel[counter].PortNumber)
         {
         case PORTNUMBER_A:
+            SYSTEM_CONTROL_REG_GPIOHBCTL.PORTA=ENABLE;
+            SYSTEM_CONTROL_REG_RCGCGPIO.R0 = ENABLE;
 
+            SET_BIT(GET_REG(GPIO_A_AHB_PERI_BASE_ADDRESS, GPIODEN_OFFSET), ConfigPtr->Channel[counter].PinNumber);
+            
             /********************************Set PortA Pins Direction **********************************/
-            if (ConfigPtr->Channel[counter].PortPinDirection == PIN_DIRECTION_INPUT)
+            if (ConfigPtr->Channel[counter].PortPinDirection == PIN_DIRECTION_OUTPUT)
             {
                 SET_BIT(GET_REG(GPIO_A_AHB_PERI_BASE_ADDRESS, GPIODIR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
             }
-            else if (ConfigPtr->Channel[counter].PortPinDirection == PIN_DIRECTION_OUTPUT)
+            else if (ConfigPtr->Channel[counter].PortPinDirection == PIN_DIRECTION_INPUT)
             {
                 CLEAR_BIT(GET_REG(GPIO_A_AHB_PERI_BASE_ADDRESS, GPIODIR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
             }
@@ -140,6 +142,7 @@ void Port_Init(const Port_ConfigType *ConfigPtr)
             }
             break;
         case PORTNUMBER_B:
+            SYSTEM_CONTROL_REG_RCGCGPIO.R1 = ENABLE;
             /********************************Set PortB Pins Direction **********************************/
             if (ConfigPtr->Channel[counter].PortPinDirection == PIN_DIRECTION_INPUT)
             {
@@ -205,6 +208,7 @@ void Port_Init(const Port_ConfigType *ConfigPtr)
             }
             break;
         case PORTNUMBER_C:
+            SYSTEM_CONTROL_REG_RCGCGPIO.R2 = ENABLE;
             /********************************Set PortC Pins Direction **********************************/
             if (ConfigPtr->Channel[counter].PortPinDirection == PIN_DIRECTION_INPUT)
             {
@@ -270,6 +274,7 @@ void Port_Init(const Port_ConfigType *ConfigPtr)
             }
             break;
         case PORTNUMBER_D:
+            SYSTEM_CONTROL_REG_RCGCGPIO.R3 = ENABLE;
             /********************************Set PortD Pins Direction **********************************/
             if (ConfigPtr->Channel[counter].PortPinDirection == PIN_DIRECTION_INPUT)
             {
@@ -334,6 +339,7 @@ void Port_Init(const Port_ConfigType *ConfigPtr)
             }
             break;
         case PORTNUMBER_E:
+            SYSTEM_CONTROL_REG_RCGCGPIO.R4 = ENABLE;
             /********************************Set PortE Pins Direction **********************************/
             if (ConfigPtr->Channel[counter].PortPinDirection == PIN_DIRECTION_INPUT)
             {
@@ -399,6 +405,7 @@ void Port_Init(const Port_ConfigType *ConfigPtr)
             }
             break;
         case PORTNUMBER_F:
+            SYSTEM_CONTROL_REG_RCGCGPIO.R5 = ENABLE;
             /********************************Set PortF Pins Direction **********************************/
             if (ConfigPtr->Channel[counter].PortPinDirection == PIN_DIRECTION_INPUT)
             {
@@ -429,7 +436,6 @@ void Port_Init(const Port_ConfigType *ConfigPtr)
             {
                 /* No Action Required */
             }
-     
 
             /********************************Set PortF Pins Internal Resitors **************************/
             if (ConfigPtr->Channel[counter].PortPinInternalAttach == PINATTACH_OPENDRAIN)
@@ -462,7 +468,7 @@ void Port_Init(const Port_ConfigType *ConfigPtr)
             {
                 /* No Action Required */
             }
-						break;
+            break;
         default:
             /* No Action Required */
             break;

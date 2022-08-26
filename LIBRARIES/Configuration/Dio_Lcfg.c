@@ -29,9 +29,7 @@
 /* PB structure used with Dio_Init API */
 Dio_ConfigType Dio_Configuration =
 	{
-		{{DIO_CONFIG_LED1_PORT_NUM, DIO_CONFIG_LED1_CHANNEL_NUM},
-		 {DIO_CONFIG_BUTTON1_PORT_NUM, DIO_CONFIG_BUTTON1_CHANNEL_NUM},
-		 {DIO_CONFIG_BUTTON2_PORT_NUM, DIO_CONFIG_BUTTON2_CHANNEL_NUM}}};
+		{{DIO_CONFIG_LED1_PORT_NUM, DIO_CONFIG_LED1_CHANNEL_NUM}}};
 
 /**********************************************************************************************************************
  *  END OF FILE: Dio_Lcfg.c

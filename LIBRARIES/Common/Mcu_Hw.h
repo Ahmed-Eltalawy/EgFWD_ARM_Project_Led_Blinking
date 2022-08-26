@@ -160,13 +160,39 @@ typedef struct RCGCTIMER_BF
     uint32          :27; /* ********************Reserved Bits******************** */
 }RCGCTIMER_BF;
 
+/* General-Purpose Input/Output Run Mode Clock Gating Control */
+typedef struct RCGCGPIO_BF
+{
+	uint32 R0       :1;  /* GPIO Port A Run Mode Clock Gating Control */
+    uint32 R1       :1;  /* GPIO Port B Run Mode Clock Gating Control */
+    uint32 R2       :1;  /* GPIO Port C Run Mode Clock Gating Control */
+    uint32 R3       :1;  /* GPIO Port D Run Mode Clock Gating Control */
+    uint32 R4       :1;  /* GPIO Port E Run Mode Clock Gating Control */
+    uint32 R5       :1;  /* GPIO Port F Run Mode Clock Gating Control */
+    uint32          :27; /* ********************Reserved Bits******************** */
+
+}RCGCGPIO_BF;
+
+
+/* General-Purpose Input/Output Run Mode Clock Gating Control */
+typedef struct GPIOHBCTL_BF
+{
+	uint32 PORTA       :1;  /* GPIO Port A Run Mode Clock Gating Control */
+    uint32 PORTB       :1;  /* GPIO Port B Run Mode Clock Gating Control */
+    uint32 PORTC       :1;  /* GPIO Port C Run Mode Clock Gating Control */
+    uint32 PORTD       :1;  /* GPIO Port D Run Mode Clock Gating Control */
+    uint32 PORTE       :1;  /* GPIO Port E Run Mode Clock Gating Control */
+    uint32 PORTF       :1;  /* GPIO Port F Run Mode Clock Gating Control */
+    uint32             :27; /* ********************Reserved Bits******************** */
+
+}GPIOHBCTL_BF;
 
 /**********************************************************************************************************************
  *  GLOBAL CONSTANT MACROS
  *********************************************************************************************************************/
  
  /* Define CPU Clock with 16 MHz*/
-#define F_CPU																	(16U)
+#define F_CPU																	(16000000U)
 
 
 /* Base address of ARM Cortex M4 Core Peripherals SysTick, NVIC, MPU, FPU and SCB registers */
@@ -366,7 +392,8 @@ typedef struct RCGCTIMER_BF
 #define SYSTEM_CONTROL_REG_SRWTIMER                         (*((volatile SRWTIMER_BF*)(SYSTEM_CONTROL_PERI_BASE_ADDRESS+0x55C)))
 #define SYSTEM_CONTROL_REG_RCGCWD                           (*((volatile RCGCWD_BF*)(SYSTEM_CONTROL_PERI_BASE_ADDRESS+0x600)))
 #define SYSTEM_CONTROL_REG_RCGCTIMER                        (*((volatile RCGCTIMER_BF*)(SYSTEM_CONTROL_PERI_BASE_ADDRESS+0x604)))
-
+#define SYSTEM_CONTROL_REG_RCGCGPIO                         (*((volatile RCGCGPIO_BF*)(SYSTEM_CONTROL_PERI_BASE_ADDRESS+0x608)))
+#define SYSTEM_CONTROL_REG_GPIOHBCTL                        (*((volatile GPIOHBCTL_BF*)(SYSTEM_CONTROL_PERI_BASE_ADDRESS+0x06C)))
 /**********************************************************************************************************************
  *  GLOBAL DATA PROTOTYPES
  *********************************************************************************************************************/

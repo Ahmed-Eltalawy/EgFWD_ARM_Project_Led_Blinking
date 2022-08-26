@@ -2,27 +2,26 @@
 
  *  FILE DESCRIPTION
  *  -------------------------------------------------------------------------------------------------------------------
- *         File:  App.h
+ *         File:  Blink.h
  *       Module:  -
  *
- *  Description:  <Write File DESCRIPTION here>     
+ *  Description:  Header file for Blink Service.
+ *                     
  *  
  *********************************************************************************************************************/
-#ifndef APP_H
-#define APP_H
+#ifndef BLINK_H
+#define BLINK_H
 
 /**********************************************************************************************************************
  * INCLUDES
  *********************************************************************************************************************/
-#include "UserTime.h"
-#include "Dio.h"
-#include "Blink.h"
-#include "System.h"
+#include "Std_Types.h"
+#include "Led.h"
+#include "SysTick.h"
 /**********************************************************************************************************************
  *  GLOBAL CONSTANT MACROS
  *********************************************************************************************************************/
 
-#define LED_1                      DioConf_LED1_CHANNEL_ID_INDEX
 
 /**********************************************************************************************************************
  *  GLOBAL FUNCTION MACROS
@@ -32,7 +31,12 @@
 /**********************************************************************************************************************
  *  GLOBAL DATA TYPES AND STRUCTURES
  *********************************************************************************************************************/
+typedef enum Led_Status_Type
+{
+    LED_STATUS_OFF = 0,
+    LED_STATUS_ON  = 1 
 
+}Led_Status_Type;
 
 /**********************************************************************************************************************
  *  GLOBAL DATA PROTOTYPES
@@ -43,9 +47,49 @@
  *  GLOBAL FUNCTION PROTOTYPES
  *********************************************************************************************************************/
 
+
+/******************************************************************************
+ * \Syntax             : Blinking_Start
+ * \Description        : Function to blink the specified led.
+ * \Sync\Async         : Synchronous.
+ * \Reentrancy         : NonReentrant.
+ * \Parameters (in)    : LedId    - The specific led id.
+ *					   : Time_On  - Led On time period
+ *                     : Time_OFF - Led Off time period
+ * \Parameters (inout) : None.
+ * \Parameters (out)   : None.
+ * \Return value:      : None.
+ *******************************************************************************/
+void Blinking_Start(Led_ChannelType LedId, uint32 Time_On , uint32 Time_OFF);
+
+/******************************************************************************
+ * \Syntax             : void Blinking_Stop(void)
+ * \Description        : Function to stop Blinking Led.
+ * \Sync\Async         : Synchronous.
+ * \Reentrancy         : NonReentrant.
+ * \Parameters (in)    : None.
+ * \Parameters (inout) : None.
+ * \Parameters (out)   : None.
+ * \Return value:      : None.
+ *******************************************************************************/
+void Blinking_Stop(void);
+
+
+/******************************************************************************
+ * \Syntax             : void Blinking_Change_Status(void)
+ * \Description        : Function to change status of Blinking Led.
+ * \Sync\Async         : Synchronous.
+ * \Reentrancy         : NonReentrant.
+ * \Parameters (in)    : None.
+ * \Parameters (inout) : None.
+ * \Parameters (out)   : None.
+ * \Return value:      : None.
+ *******************************************************************************/
+void Blinking_Change_Status(void);
+
  
-#endif  /* APP_H */
+#endif  /* BLINK_H */
 
 /**********************************************************************************************************************
- *  END OF FILE: App.h
+ *  END OF FILE: Blink.h
  *********************************************************************************************************************/
