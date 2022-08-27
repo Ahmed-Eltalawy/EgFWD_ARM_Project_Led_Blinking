@@ -87,19 +87,19 @@ typedef enum
 /* Type definition for Port_NumberType used by the Port APIs */
 typedef enum 
 {
-    PORTNUMBER_A = 0,
-    PORTNUMBER_B,
-    PORTNUMBER_C,
-    PORTNUMBER_D,
-    PORTNUMBER_E,
-    PORTNUMBER_F,
+    PORT_A = 0,
+    PORT_B,
+    PORT_C,
+    PORT_D,
+    PORT_E,
+    PORT_F,
 	
 }Port_NumberType;
 
 /* Type definition for Port_PinDirectionType used by the Port APIs */
 typedef enum 
 {
-    PIN_DIRECTION_INPUT = 0,
+    PIN_DIRECTION_INPUT  = 0,
     PIN_DIRECTION_OUTPUT,
 	
 }Port_PinDirectionType;
@@ -108,15 +108,15 @@ typedef enum
 /* Type definition for Port_PinModeType used by the Port APIs */
 typedef enum 
 {
-    PINMODE_DIGITAL = 0,
-    PINMODE_ANALOG,
+    PINMODE_DIGITAL = 0,          // This signal is controlled by Digital Module 
+    PINMODE_ANALOG,               // This signal is controlled by Analog Module 
     PINMODE_UART,                 // This signal is controlled by UART Module 
-    PINMODE_PWM,                  // This signal is controlled by SSI Module 
-    PINMODE_TIMER_CAPTURE,        // This signal is controlled by Timer Module 
-    PINMODE_TIMER_COMPARE,        // This signal is controlled by Timer Module 
+    PINMODE_PWM,                  // This signal is controlled by PWM Module 
+    PINMODE_TIMER_CAPTURE,        // This signal is controlled by Timer Capture Module 
+    PINMODE_TIMER_COMPARE,        // This signal is controlled by Timer Compare Module 
     PINMODE_USB,                  // This signal is controlled by USB Module 
     PINMODE_CAN,                  // This signal is controlled by CAN Module 
-    PINMODE_SSI,                  // This signal is controlled by PWM Module
+    PINMODE_SSI,                  // This signal is controlled by SSI Module
     PINMODE_I2C,                  // This signal is controlled by I2C Module
     PINMODE_QEI,                  // This signal is controlled by QEI Module
     PINMODE_NMI,                  // Non Muskable Interrupt
@@ -126,7 +126,7 @@ typedef enum
 /* Type definition for Port_PinInternalAttachType used by the Port APIs */
 typedef enum 
 {
-    PINATTACH_PULLUP = 0,
+    PINATTACH_PULLUP    = 0,
     PINATTACH_PULLDOWN,
     PINATTACH_OPENDRAIN,
 	
@@ -151,8 +151,8 @@ typedef enum
 }Port_PinLevelType;
 
 /* Description: Structure to describe each individual PIN contains:
- *	1. the Pin  Number  Which the pin belongs to. 0, 1, 2 or 3 .....8 .
- *  2. the Port Number PortA , PortB or PortC ....PortF .
+ *	1. the Pin  Number  Which the pin belongs to. 0, 1, 2 or 3 .....7 .
+ *  2. the Port Number PORT_A , PORT_B or PORT_C ....PORT_F .
  *  3. the Port pin Mode UART, Analog or Digital .....
  *	4. the Port pin Level Value High or Low .
  *  5. the Port Pin direction of pin --> INPUT or OUTPUT

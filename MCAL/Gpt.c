@@ -89,7 +89,7 @@ void Gpt_Init(const Gpt_ConfigType *ConfigPtr)
            */
 
             /* Enable Timer 0 Clock*/
-            SYSTEM_CONTROL_REG_RCGCTIMER.R0 = 0x01;
+            SYSTEM_CONTROL_REG_RCGCTIMER.R0 = ENABLE;
 
             /* Get the Base Address of Timer 0 Module*/
             gptBaseAddress = (volatile uint32 *)GPT_TIMER0_PERI_BASE_ADDRESS;

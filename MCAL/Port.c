@@ -50,13 +50,12 @@
  *******************************************************************************/
 void Port_Init(const Port_ConfigType *ConfigPtr)
 {
-
+    /* Iterator Counter used to iterate on the array of the configuration strucrtues of all configures of Port Driver */
     uint8 counter = 0;
-    /*
-    Note that each GPIO module clock must be enabled before the registers can be programmed (see
-    page 340). There must be a delay of 3 system clocks after the GPIO module clock is enabled before
-    any GPIO module registers are accessed .
-    */
+
+    /* Base Address of GPT Peripheral*/
+    volatile uint32 *gptBaseAddress = NULL_PTR;
+
     if (NULL_PTR == ConfigPtr)
     {
         return; // Configurations Error .
@@ -72,406 +71,161 @@ void Port_Init(const Port_ConfigType *ConfigPtr)
 
         switch (ConfigPtr->Channel[counter].PortNumber)
         {
-        case PORTNUMBER_A:
-            SYSTEM_CONTROL_REG_GPIOHBCTL.PORTA=ENABLE;
+        case PORT_A:
+
+            /* Enable GPIO PORT_A Advanced High Performance Bus*/
+            SYSTEM_CONTROL_REG_GPIOHBCTL.PORTA = ENABLE;
+
+            /* Enable GPIO PORT_A Clock*/
             SYSTEM_CONTROL_REG_RCGCGPIO.R0 = ENABLE;
 
-            SET_BIT(GET_REG(GPIO_A_AHB_PERI_BASE_ADDRESS, GPIODEN_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            
-            /********************************Set PortA Pins Direction **********************************/
-            if (ConfigPtr->Channel[counter].PortPinDirection == PIN_DIRECTION_OUTPUT)
-            {
-                SET_BIT(GET_REG(GPIO_A_AHB_PERI_BASE_ADDRESS, GPIODIR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinDirection == PIN_DIRECTION_INPUT)
-            {
-                CLEAR_BIT(GET_REG(GPIO_A_AHB_PERI_BASE_ADDRESS, GPIODIR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else
-            {
-                /* No Action Required */
-            }
-            /********************************Set PortA Pins Output Current **************************/
-            if (ConfigPtr->Channel[counter].PortPinOutputCurrent == PINOUTPUTCURRENT_2_MA)
-            {
-                SET_BIT(GET_REG(GPIO_A_AHB_PERI_BASE_ADDRESS, GPIODR2R_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinOutputCurrent == PINOUTPUTCURRENT_4_MA)
-            {
-                SET_BIT(GET_REG(GPIO_A_AHB_PERI_BASE_ADDRESS, GPIODR4R_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinOutputCurrent == PINOUTPUTCURRENT_8_MA)
-            {
-                SET_BIT(GET_REG(GPIO_A_AHB_PERI_BASE_ADDRESS, GPIODR8R_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else
-            {
-                /* No Action Required */
-            }
+            /* Get the Base Address of GPIO PORT_A Module*/
+            gptBaseAddress = (volatile uint32 *)GPIO_A_AHB_PERI_BASE_ADDRESS;
 
-            /********************************Set PortA Pins Internal Resitors **************************/
-            if (ConfigPtr->Channel[counter].PortPinInternalAttach == PINATTACH_OPENDRAIN)
-            {
-                SET_BIT(GET_REG(GPIO_A_AHB_PERI_BASE_ADDRESS, GPIOODR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinInternalAttach == PINATTACH_PULLUP)
-            {
-                SET_BIT(GET_REG(GPIO_A_AHB_PERI_BASE_ADDRESS, GPIOPUR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinInternalAttach == PINATTACH_PULLDOWN)
-            {
-                SET_BIT(GET_REG(GPIO_A_AHB_PERI_BASE_ADDRESS, GPIOPDR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else
-            {
-                /* No Action Required */
-            }
-
-            /********************************Set PortA Pins Level **********************************/
-            if (ConfigPtr->Channel[counter].PortPinLevelValue == PIN_LEVEL_HIGH)
-            {
-                SET_BIT(GET_REG(GPIO_A_AHB_PERI_BASE_ADDRESS, GPIODATA_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinLevelValue == PIN_LEVEL_LOW)
-            {
-                CLEAR_BIT(GET_REG(GPIO_A_AHB_PERI_BASE_ADDRESS, GPIODATA_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else
-            {
-                /* No Action Required */
-            }
             break;
-        case PORTNUMBER_B:
+        case PORT_B:
+
+            /* Enable GPIO PORT_B Advanced High Performance Bus*/
+            SYSTEM_CONTROL_REG_GPIOHBCTL.PORTB = ENABLE;
+
+            /* Enable GPIO PORT_B Clock*/
             SYSTEM_CONTROL_REG_RCGCGPIO.R1 = ENABLE;
-            /********************************Set PortB Pins Direction **********************************/
-            if (ConfigPtr->Channel[counter].PortPinDirection == PIN_DIRECTION_INPUT)
-            {
-                SET_BIT(GET_REG(GPIO_B_AHB_PERI_BASE_ADDRESS, GPIODIR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinDirection == PIN_DIRECTION_OUTPUT)
-            {
-                CLEAR_BIT(GET_REG(GPIO_B_AHB_PERI_BASE_ADDRESS, GPIODIR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else
-            {
-                /* No Action Required */
-            }
 
-            /********************************Set PortB Pins Output Current **************************/
-            if (ConfigPtr->Channel[counter].PortPinOutputCurrent == PINOUTPUTCURRENT_2_MA)
-            {
-                SET_BIT(GET_REG(GPIO_B_AHB_PERI_BASE_ADDRESS, GPIODR2R_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinOutputCurrent == PINOUTPUTCURRENT_4_MA)
-            {
-                SET_BIT(GET_REG(GPIO_B_AHB_PERI_BASE_ADDRESS, GPIODR4R_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinOutputCurrent == PINOUTPUTCURRENT_8_MA)
-            {
-                SET_BIT(GET_REG(GPIO_B_AHB_PERI_BASE_ADDRESS, GPIODR8R_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else
-            {
-                /* No Action Required */
-            }
+            /* Get the Base Address of GPIO PORT_B Module*/
+            gptBaseAddress = (volatile uint32 *)GPIO_B_AHB_PERI_BASE_ADDRESS;
 
-            /********************************Set PortB Pins Internal Resitors **************************/
-            if (ConfigPtr->Channel[counter].PortPinInternalAttach == PINATTACH_OPENDRAIN)
-            {
-                SET_BIT(GET_REG(GPIO_B_AHB_PERI_BASE_ADDRESS, GPIOODR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinInternalAttach == PINATTACH_PULLUP)
-            {
-                SET_BIT(GET_REG(GPIO_B_AHB_PERI_BASE_ADDRESS, GPIOPUR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinInternalAttach == PINATTACH_PULLDOWN)
-            {
-                SET_BIT(GET_REG(GPIO_B_AHB_PERI_BASE_ADDRESS, GPIOPDR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else
-            {
-                /* No Action Required */
-            }
-
-            /********************************Set PortB Pins Level **********************************/
-            if (ConfigPtr->Channel[counter].PortPinLevelValue == PIN_LEVEL_HIGH)
-            {
-                SET_BIT(GET_REG(GPIO_B_AHB_PERI_BASE_ADDRESS, GPIODATA_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinLevelValue == PIN_LEVEL_LOW)
-            {
-                CLEAR_BIT(GET_REG(GPIO_B_AHB_PERI_BASE_ADDRESS, GPIODATA_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else
-            {
-                /* No Action Required */
-            }
             break;
-        case PORTNUMBER_C:
+        case PORT_C:
+            /* Enable GPIO PORT_C Advanced High Performance Bus*/
+            SYSTEM_CONTROL_REG_GPIOHBCTL.PORTC = ENABLE;
+
+            /* Enable GPIO PORT_C Clock*/
             SYSTEM_CONTROL_REG_RCGCGPIO.R2 = ENABLE;
-            /********************************Set PortC Pins Direction **********************************/
-            if (ConfigPtr->Channel[counter].PortPinDirection == PIN_DIRECTION_INPUT)
-            {
-                SET_BIT(GET_REG(GPIO_C_AHB_PERI_BASE_ADDRESS, GPIODIR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinDirection == PIN_DIRECTION_OUTPUT)
-            {
-                CLEAR_BIT(GET_REG(GPIO_C_AHB_PERI_BASE_ADDRESS, GPIODIR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else
-            {
-                /* No Action Required */
-            }
 
-            /********************************Set PortC Pins Output Current **************************/
-            if (ConfigPtr->Channel[counter].PortPinOutputCurrent == PINOUTPUTCURRENT_2_MA)
-            {
-                SET_BIT(GET_REG(GPIO_C_AHB_PERI_BASE_ADDRESS, GPIODR2R_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinOutputCurrent == PINOUTPUTCURRENT_4_MA)
-            {
-                SET_BIT(GET_REG(GPIO_C_AHB_PERI_BASE_ADDRESS, GPIODR4R_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinOutputCurrent == PINOUTPUTCURRENT_8_MA)
-            {
-                SET_BIT(GET_REG(GPIO_C_AHB_PERI_BASE_ADDRESS, GPIODR8R_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else
-            {
-                /* No Action Required */
-            }
+            /* Get the Base Address of GPIO PORT_C Module*/
+            gptBaseAddress = (volatile uint32 *)GPIO_C_AHB_PERI_BASE_ADDRESS;
 
-            /********************************Set PortC Pins Internal Resitors **************************/
-            if (ConfigPtr->Channel[counter].PortPinInternalAttach == PINATTACH_OPENDRAIN)
-            {
-                SET_BIT(GET_REG(GPIO_C_AHB_PERI_BASE_ADDRESS, GPIOODR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinInternalAttach == PINATTACH_PULLUP)
-            {
-                SET_BIT(GET_REG(GPIO_C_AHB_PERI_BASE_ADDRESS, GPIOPUR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinInternalAttach == PINATTACH_PULLDOWN)
-            {
-                SET_BIT(GET_REG(GPIO_C_AHB_PERI_BASE_ADDRESS, GPIOPDR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else
-            {
-                /* No Action Required */
-            }
-
-            /********************************Set PortC Pins Level **********************************/
-            if (ConfigPtr->Channel[counter].PortPinLevelValue == PIN_LEVEL_HIGH)
-            {
-                SET_BIT(GET_REG(GPIO_C_AHB_PERI_BASE_ADDRESS, GPIODATA_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinLevelValue == PIN_LEVEL_LOW)
-            {
-                CLEAR_BIT(GET_REG(GPIO_C_AHB_PERI_BASE_ADDRESS, GPIODATA_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else
-            {
-                /* No Action Required */
-            }
             break;
-        case PORTNUMBER_D:
+        case PORT_D:
+            /* Enable GPIO PORT_D Advanced High Performance Bus*/
+            SYSTEM_CONTROL_REG_GPIOHBCTL.PORTD = ENABLE;
+
+            /* Enable GPIO PORT_D Clock*/
             SYSTEM_CONTROL_REG_RCGCGPIO.R3 = ENABLE;
-            /********************************Set PortD Pins Direction **********************************/
-            if (ConfigPtr->Channel[counter].PortPinDirection == PIN_DIRECTION_INPUT)
-            {
-                SET_BIT(GET_REG(GPIO_D_AHB_PERI_BASE_ADDRESS, GPIODIR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinDirection == PIN_DIRECTION_OUTPUT)
-            {
-                CLEAR_BIT(GET_REG(GPIO_D_AHB_PERI_BASE_ADDRESS, GPIODIR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else
-            {
-                /* No Action Required */
-            }
-            /********************************Set PortD Pins Output Current **************************/
-            if (ConfigPtr->Channel[counter].PortPinOutputCurrent == PINOUTPUTCURRENT_2_MA)
-            {
-                SET_BIT(GET_REG(GPIO_D_AHB_PERI_BASE_ADDRESS, GPIODR2R_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinOutputCurrent == PINOUTPUTCURRENT_4_MA)
-            {
-                SET_BIT(GET_REG(GPIO_D_AHB_PERI_BASE_ADDRESS, GPIODR4R_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinOutputCurrent == PINOUTPUTCURRENT_8_MA)
-            {
-                SET_BIT(GET_REG(GPIO_D_AHB_PERI_BASE_ADDRESS, GPIODR8R_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else
-            {
-                /* No Action Required */
-            }
 
-            /********************************Set PortD Pins Internal Resitors **************************/
-            if (ConfigPtr->Channel[counter].PortPinInternalAttach == PINATTACH_OPENDRAIN)
-            {
-                SET_BIT(GET_REG(GPIO_D_AHB_PERI_BASE_ADDRESS, GPIOODR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinInternalAttach == PINATTACH_PULLUP)
-            {
-                SET_BIT(GET_REG(GPIO_D_AHB_PERI_BASE_ADDRESS, GPIOPUR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinInternalAttach == PINATTACH_PULLDOWN)
-            {
-                SET_BIT(GET_REG(GPIO_D_AHB_PERI_BASE_ADDRESS, GPIOPDR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else
-            {
-                /* No Action Required */
-            }
+            /* Get the Base Address of GPIO PORT_D Module*/
+            gptBaseAddress = (volatile uint32 *)GPIO_D_AHB_PERI_BASE_ADDRESS;
 
-            /********************************Set PortD Pins Level **********************************/
-            if (ConfigPtr->Channel[counter].PortPinLevelValue == PIN_LEVEL_HIGH)
-            {
-                SET_BIT(GET_REG(GPIO_D_AHB_PERI_BASE_ADDRESS, GPIODATA_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinLevelValue == PIN_LEVEL_LOW)
-            {
-                CLEAR_BIT(GET_REG(GPIO_D_AHB_PERI_BASE_ADDRESS, GPIODATA_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else
-            {
-                /* No Action Required */
-            }
-            break;
-        case PORTNUMBER_E:
+        case PORT_E:
+            /* Enable GPIO PORT_E Advanced High Performance Bus*/
+            SYSTEM_CONTROL_REG_GPIOHBCTL.PORTE = ENABLE;
+
+            /* Enable GPIO PORT_E Clock*/
             SYSTEM_CONTROL_REG_RCGCGPIO.R4 = ENABLE;
-            /********************************Set PortE Pins Direction **********************************/
-            if (ConfigPtr->Channel[counter].PortPinDirection == PIN_DIRECTION_INPUT)
-            {
-                SET_BIT(GET_REG(GPIO_E_AHB_PERI_BASE_ADDRESS, GPIODIR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinDirection == PIN_DIRECTION_OUTPUT)
-            {
-                CLEAR_BIT(GET_REG(GPIO_E_AHB_PERI_BASE_ADDRESS, GPIODIR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else
-            {
-                /* No Action Required */
-            }
 
-            /********************************Set PortE Pins Output Current **************************/
-            if (ConfigPtr->Channel[counter].PortPinOutputCurrent == PINOUTPUTCURRENT_2_MA)
-            {
-                SET_BIT(GET_REG(GPIO_E_AHB_PERI_BASE_ADDRESS, GPIODR2R_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinOutputCurrent == PINOUTPUTCURRENT_4_MA)
-            {
-                SET_BIT(GET_REG(GPIO_E_AHB_PERI_BASE_ADDRESS, GPIODR4R_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinOutputCurrent == PINOUTPUTCURRENT_8_MA)
-            {
-                SET_BIT(GET_REG(GPIO_E_AHB_PERI_BASE_ADDRESS, GPIODR8R_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else
-            {
-                /* No Action Required */
-            }
+            /* Get the Base Address of GPIO PORT_E Module*/
+            gptBaseAddress = (volatile uint32 *)GPIO_E_AHB_PERI_BASE_ADDRESS;
 
-            /********************************Set PortE Pins Internal Resitors **************************/
-            if (ConfigPtr->Channel[counter].PortPinInternalAttach == PINATTACH_OPENDRAIN)
-            {
-                SET_BIT(GET_REG(GPIO_E_AHB_PERI_BASE_ADDRESS, GPIOODR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinInternalAttach == PINATTACH_PULLUP)
-            {
-                SET_BIT(GET_REG(GPIO_E_AHB_PERI_BASE_ADDRESS, GPIOPUR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinInternalAttach == PINATTACH_PULLDOWN)
-            {
-                SET_BIT(GET_REG(GPIO_E_AHB_PERI_BASE_ADDRESS, GPIOPDR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else
-            {
-                /* No Action Required */
-            }
-
-            /********************************Set PortE Pins Level **********************************/
-            if (ConfigPtr->Channel[counter].PortPinLevelValue == PIN_LEVEL_HIGH)
-            {
-                SET_BIT(GET_REG(GPIO_E_AHB_PERI_BASE_ADDRESS, GPIODATA_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinLevelValue == PIN_LEVEL_LOW)
-            {
-                CLEAR_BIT(GET_REG(GPIO_E_AHB_PERI_BASE_ADDRESS, GPIODATA_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else
-            {
-                /* No Action Required */
-            }
             break;
-        case PORTNUMBER_F:
+        case PORT_F:
+            /* Enable GPIO PORT_F Advanced High Performance Bus*/
+            SYSTEM_CONTROL_REG_GPIOHBCTL.PORTF = ENABLE;
+
+            /* Enable GPIO PORT_F Clock*/
             SYSTEM_CONTROL_REG_RCGCGPIO.R5 = ENABLE;
-            /********************************Set PortF Pins Direction **********************************/
-            if (ConfigPtr->Channel[counter].PortPinDirection == PIN_DIRECTION_INPUT)
-            {
-                SET_BIT(GET_REG(GPIO_F_AHB_PERI_BASE_ADDRESS, GPIODIR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinDirection == PIN_DIRECTION_OUTPUT)
-            {
-                CLEAR_BIT(GET_REG(GPIO_F_AHB_PERI_BASE_ADDRESS, GPIODIR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else
-            {
-                /* No Action Required */
-            }
-            /********************************Set PortF Pins Output Current **************************/
-            if (ConfigPtr->Channel[counter].PortPinOutputCurrent == PINOUTPUTCURRENT_2_MA)
-            {
-                SET_BIT(GET_REG(GPIO_F_AHB_PERI_BASE_ADDRESS, GPIODR2R_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinOutputCurrent == PINOUTPUTCURRENT_4_MA)
-            {
-                SET_BIT(GET_REG(GPIO_F_AHB_PERI_BASE_ADDRESS, GPIODR4R_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinOutputCurrent == PINOUTPUTCURRENT_8_MA)
-            {
-                SET_BIT(GET_REG(GPIO_F_AHB_PERI_BASE_ADDRESS, GPIODR8R_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else
-            {
-                /* No Action Required */
-            }
 
-            /********************************Set PortF Pins Internal Resitors **************************/
-            if (ConfigPtr->Channel[counter].PortPinInternalAttach == PINATTACH_OPENDRAIN)
-            {
-                SET_BIT(GET_REG(GPIO_F_AHB_PERI_BASE_ADDRESS, GPIOODR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinInternalAttach == PINATTACH_PULLUP)
-            {
-                SET_BIT(GET_REG(GPIO_F_AHB_PERI_BASE_ADDRESS, GPIOPUR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinInternalAttach == PINATTACH_PULLDOWN)
-            {
-                SET_BIT(GET_REG(GPIO_F_AHB_PERI_BASE_ADDRESS, GPIOPDR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else
-            {
-                /* No Action Required */
-            }
+            /* Get the Base Address of GPIO PORT_F Module*/
+            gptBaseAddress = (volatile uint32 *)GPIO_F_AHB_PERI_BASE_ADDRESS;
 
-            /********************************Set PortF Pins Level **********************************/
-            if (ConfigPtr->Channel[counter].PortPinLevelValue == PIN_LEVEL_HIGH)
-            {
-                SET_BIT(GET_REG(GPIO_F_AHB_PERI_BASE_ADDRESS, GPIODATA_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else if (ConfigPtr->Channel[counter].PortPinLevelValue == PIN_LEVEL_LOW)
-            {
-                CLEAR_BIT(GET_REG(GPIO_F_AHB_PERI_BASE_ADDRESS, GPIODATA_OFFSET), ConfigPtr->Channel[counter].PinNumber);
-            }
-            else
-            {
-                /* No Action Required */
-            }
             break;
         default:
             /* No Action Required */
             break;
+        }
+
+        /* Check of the user filled the configuration Successfully*/
+        if (NULL_PTR == gptBaseAddress)
+        {
+            /* Configurations Error */
+            return ;
+        }
+
+        else
+        {
+            /* Configurations Successfully */
+            /* No Action Required */
+        }
+        /********************************Enable GPIO PORT Digital Mode **********************************/
+        if (ConfigPtr->Channel[counter].PortPinMode == PINMODE_DIGITAL)
+        {
+            SET_BIT(GET_REGISTER((volatile uint8 *)gptBaseAddress, uint32, GPIODEN_OFFSET), ConfigPtr->Channel[counter].PinNumber);
+        }
+        else
+        {
+            /* No Action Required */
+        }
+
+        /********************************Set Port Pins Direction **********************************/
+        if (ConfigPtr->Channel[counter].PortPinDirection == PIN_DIRECTION_OUTPUT)
+        {
+            SET_BIT(GET_REGISTER((volatile uint8 *)gptBaseAddress, uint32, GPIODIR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
+        }
+        else if (ConfigPtr->Channel[counter].PortPinDirection == PIN_DIRECTION_INPUT)
+        {
+            CLEAR_BIT(GET_REGISTER((volatile uint8 *)gptBaseAddress, uint32, GPIODIR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
+        }
+        else
+        {
+            /* No Action Required */
+        }
+        /********************************Set Port Pins Output Current **************************/
+        if (ConfigPtr->Channel[counter].PortPinOutputCurrent == PINOUTPUTCURRENT_2_MA)
+        {
+            SET_BIT(GET_REGISTER((volatile uint8 *)gptBaseAddress, uint32, GPIODR2R_OFFSET), ConfigPtr->Channel[counter].PinNumber);
+        }
+        else if (ConfigPtr->Channel[counter].PortPinOutputCurrent == PINOUTPUTCURRENT_4_MA)
+        {
+            SET_BIT(GET_REGISTER((volatile uint8 *)gptBaseAddress, uint32, GPIODR4R_OFFSET), ConfigPtr->Channel[counter].PinNumber);
+        }
+        else if (ConfigPtr->Channel[counter].PortPinOutputCurrent == PINOUTPUTCURRENT_8_MA)
+        {
+            SET_BIT(GET_REGISTER((volatile uint8 *)gptBaseAddress, uint32, GPIODR8R_OFFSET), ConfigPtr->Channel[counter].PinNumber);
+        }
+        else
+        {
+            /* No Action Required */
+        }
+
+        /********************************Set Port Pins Internal Resitors **************************/
+        if (ConfigPtr->Channel[counter].PortPinInternalAttach == PINATTACH_OPENDRAIN)
+        {
+            SET_BIT(GET_REGISTER((volatile uint8 *)gptBaseAddress, uint32, GPIOODR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
+        }
+        else if (ConfigPtr->Channel[counter].PortPinInternalAttach == PINATTACH_PULLUP)
+        {
+            SET_BIT(GET_REGISTER((volatile uint8 *)gptBaseAddress, uint32, GPIOPUR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
+        }
+        else if (ConfigPtr->Channel[counter].PortPinInternalAttach == PINATTACH_PULLDOWN)
+        {
+            SET_BIT(GET_REGISTER((volatile uint8 *)gptBaseAddress, uint32, GPIOPDR_OFFSET), ConfigPtr->Channel[counter].PinNumber);
+        }
+        else
+        {
+            /* No Action Required */
+        }
+
+        /********************************Set Port Pins Level **********************************/
+        if (ConfigPtr->Channel[counter].PortPinLevelValue == PIN_LEVEL_HIGH)
+        {
+            SET_BIT(GET_REGISTER((volatile uint8 *)gptBaseAddress, uint32, GPIODATA_OFFSET), ConfigPtr->Channel[counter].PinNumber);
+        }
+        else if (ConfigPtr->Channel[counter].PortPinLevelValue == PIN_LEVEL_LOW)
+        {
+            CLEAR_BIT(GET_REGISTER((volatile uint8 *)gptBaseAddress, uint32, GPIODATA_OFFSET), ConfigPtr->Channel[counter].PinNumber);
+        }
+        else
+        {
+            /* No Action Required */
         }
     }
 }

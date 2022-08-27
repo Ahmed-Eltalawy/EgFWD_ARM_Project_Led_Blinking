@@ -28,7 +28,7 @@
 
 
 /* DIO Configured Port ID's  */
-#define DIO_CONFIG_LED1_PORT_NUM                (Dio_PortType)PORTNUMBER_A /* PORTA */
+#define DIO_CONFIG_LED1_PORT_NUM                (Dio_PortType)PORT_A /* PORTA */
 
 
 /* DIO Configured Channel ID's */

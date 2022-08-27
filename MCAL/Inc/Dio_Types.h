@@ -40,7 +40,6 @@ typedef uint8 Dio_PortType;
 /* Type definition for Dio_PortLevelType used by the DIO APIs */
 typedef uint8 Dio_PortLevelType;
 
-
 /* Type definition for Dio_LevelType used by the DIO APIs */
 typedef enum Dio_LevelType
 {
